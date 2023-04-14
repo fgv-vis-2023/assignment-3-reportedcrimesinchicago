@@ -12,7 +12,7 @@ var svg = d3.select("#map").append("svg")
   .attr("width", width)
   .attr("height", height);
 
-d3.json("communityareas.geojson").then(function(data) {
+d3.json("https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&format=GeoJSON").then(function(data) {
   svg.selectAll("path")
     .data(data.features)
     .enter()
