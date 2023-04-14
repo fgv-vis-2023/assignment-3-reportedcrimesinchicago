@@ -1,0 +1,60 @@
+p {
+  font-size: 20px;
+}
+  
+h4 {
+  font-weight: 600;
+  margin: 15px 0 5px 0;
+}
+  
+html, body {
+  background: #F8F9FA;
+  font-family: 'calibri';
+  height: 100%;
+  margin: 5;
+  padding: 5;
+  width: 100%;
+  display: block;
+}
+
+svg {
+  position: relative;
+}
+
+.container-fluid {
+  padding: 5%;
+  max-width: 900px;
+  margin: 5px;
+}
+
+.main-container {
+  max-width: 1040px;
+  margin: 5px;
+}
+
+.map {
+  display: block;
+  height: 850px;
+}
+
+.bottom {
+  margin-top: 0px;
+  flex-direction: column;
+}
+  
+.bottom p {
+  font-size: 15px;
+}
+
+a {
+  cursor: pointer;
+}
+
+a:link {
+  text-decoration: none;
+  color: #4575B4;
+}
+
+a:visited {
+  color: #4556b4;
+}

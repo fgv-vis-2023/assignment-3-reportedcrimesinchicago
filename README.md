@@ -4,5 +4,9 @@ This is a project developed for the Data Visualization course, taught by profess
 
 We used the data from [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2) and the D3 library to build a visualization that shows the distribution of crime across Chicago.
 
+## Design Decisions
+
+## Development Process
+
 ## Sources and References
 - [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2)
