@@ -1,2 +1,8 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/CxFZefIP)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10792336&assignment_repo_type=AssignmentRepo)
+# Data Visualization: Assignment 3 - Interactive Design
+
+This is a project developed for the Data Visualization course, taught by professor Jorge Poco, by the students [Bernardo Vargas](https://github.com/), [Cristiano Lárrea](https://github.com/cristianolarrea) and [Paloma Borges](https://github.com/palomavb), from the Data Science and Artificial Intelligence course at FGV.
+
+We used the data from [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2) and the D3 library to build a visualization that shows the distribution of crime across Chicago.
+
+## Sources and References
+- [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2)
