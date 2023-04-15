@@ -4,48 +4,56 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reported Crimes in Chicago</title>
-    <link rel="stylesheet" href="/src/style.css">
+    <link rel="stylesheet" href="C:/Users/palom/OneDrive/Documentos/fgv/5P/data vis/assignment-3-reportedcrimesinchicago/src/style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
 
   <body>
     <div class="main-container">
       <h1>Reported Crimes in Chicago</h1>
-      
-      <div id="map"></div>
-      <script type="text/javascript">
-        var width = 800;
-        var height = 600;
-
-        var projection = d3.geoMercator()
-                 .center([-87.6298, 41.8781])
-                 .scale(80000)
-                 .translate([width / 2, height / 2]);
-
-        var path = d3.geoPath().projection(projection);
-
-        var svg = d3.select("#map").append("svg")
-          .attr("width", width)
-          .attr("height", height);
-
-        d3.json("https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&format=GeoJSON").then(function(data) {
-          svg.selectAll("path")
-            .data(data.features)
-            .enter()
-            .append("path")
-            .attr("d", path)
-            .style("fill", "gray")
-            .style("stroke", "white");
-        });
-
-      </script>
-
-      <!--<script src="map.js"></script>--> 
-
-      <div class="main-container bottom">
-        <h4>Source:</h4>
-        <p>Dataset from <a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">Chicago Data Portal</a></p>
+    </div>
+    
+    <div class="container-fluid main-container">  
+      <div class="crime-type">
+        <h4>Crime Type</h4>
+        <input type="checkbox" class="checkbox" value="THEFT" checked>
+        <label>Theft</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="BATTERY" checked>
+        <label>Battery</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="ASSAULT" checked>
+        <label>Assault</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="WEAPONS VIOLATION" checked>
+        <label>Weapons Violation</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="CRIMINAL DAMAGE" checked>
+        <label>Criminal Damage</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="INTERFERENCE WITH PUBLIC OFFICER" checked>
+        <label>Interference with Public Officer</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="MOTOR VEHICLE THEFT" checked>
+        <label>Motor Vehicle Theft</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="ROBBERY" checked>
+        <label>Robbery</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="DECEPTIVE PRACTICE" checked>
+        <label>Deceptive Practice</label>
+        <br>
+        <input type="checkbox" class="checkbox" value="OTHER OFFENSE" checked>
+        <label>Other Offense</label>
+        <br>
       </div>
+      <script src="map.js"></script> 
+    </div>
+
+    <div class="main-container bottom">
+      <h4>Data Sources:</h4>
+      <p><a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">Crime Data</a> and
+      <a href="https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6">Neighborhood boundaries shapefile</a> from Chicago Data Portal</p>
     </div>
   </body>
 </html>

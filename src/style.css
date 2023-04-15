@@ -11,9 +11,9 @@ html, body {
   background: #F8F9FA;
   font-family: 'calibri';
   height: 100%;
-  margin: 5;
-  padding: 5;
   width: 100%;
+  margin: 0;
+  padding: 0;
   display: block;
 }
 
@@ -22,19 +22,27 @@ svg {
 }
 
 .container-fluid {
-  padding: 5%;
-  max-width: 900px;
-  margin: 5px;
+  padding: 1%;
 }
 
 .main-container {
   max-width: 1040px;
-  margin: 5px;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
 }
 
 .map {
   display: block;
   height: 850px;
+}
+
+.crime-type {
+  width: 250px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-top: 200px;
 }
 
 .bottom {
