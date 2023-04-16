@@ -45,6 +45,25 @@ svg {
   padding-top: 200px;
 }
 
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.legend {
+  stroke: rgb(135, 135, 135);
+  fill: none;
+}
+
+#legend-text {
+  font-size: 12px;
+  text-anchor: middle;
+}
+
 .bottom {
   margin-top: 0px;
   flex-direction: column;
