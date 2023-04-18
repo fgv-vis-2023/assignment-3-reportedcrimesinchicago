@@ -10,3 +10,4 @@ We used the data from [Chicago Data Portal](https://data.cityofchicago.org/Publi
 
 ## Sources and References
 - [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2)
+- [D3 Choropleth Map](https://observablehq.com/@chagel/d3-choropleth)

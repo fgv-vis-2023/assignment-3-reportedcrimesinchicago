@@ -35,33 +35,22 @@ svg {
 
 .map {
   display: block;
-  height: 850px;
+  margin: 2px;
+  padding: 2px;
 }
 
-.crime-type {
-  width: 250px;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding-top: 200px;
+.sidebar {
+  display: block;
+  margin: 2px;
+  padding: 2px;
 }
 
-.d3-tip {
-  line-height: 1;
+.sidebar text {
+  font-family: 'calibri';
+  font-size: 14px;
   font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-.legend {
-  stroke: rgb(135, 135, 135);
-  fill: none;
-}
-
-#legend-text {
-  font-size: 12px;
-  text-anchor: middle;
+  text-anchor: start;
+  fill: black;
 }
 
 .bottom {
