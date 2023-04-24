@@ -14,9 +14,11 @@ var svg = d3.select(".container-fluid").append("svg")
   .attr("height", height);
 
 var crimeData;
+// create a tooltip
+var tooltip = d3.select(".tooltip");
 
 // create a color scale
-var colorScale = d3.scaleQuantize().domain([1, 3000]).range(d3.schemeBlues[9]);
+var colorScale = d3.scaleQuantize().domain([1, 3000]).range(d3.schemeReds[9]);
 
 d3.json("https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&format=GeoJSON").then(function(data) {
   projection.fitSize([width,height],data); // fit the projection to the data
@@ -30,6 +32,8 @@ d3.json("https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&f
     });
       
     crimeData = d3.rollup(crimes, v => v.length, d => d["Community Area"]);
+    console.log(crimes);
+    console.log(data);
 
     // Join the crime data with the GeoJSON data
     data.features.forEach(function(d) {
@@ -57,10 +61,19 @@ d3.json("https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&f
         return colorScale(numCrimes);
       })
       .on("mouseover", function(d) { 
-        d3.select(this).style("stroke", "darkred");
+        d3.select(this).style("stroke", "black").attr("stroke-width", 2);
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9);
+        tooltip.html("Community Area: " + d.properties.community + "<br/>" + "Number of crimes: " + d.properties.numCrimes)
+          .style("left", (d3.event.pageX + 10) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
       })
       .on("mouseout", function() {
         d3.select(this).style("stroke", "white");
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
       });
   });
 });
