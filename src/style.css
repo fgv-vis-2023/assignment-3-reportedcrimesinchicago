@@ -34,14 +34,6 @@ svg {
   padding: 2px;
 }
 
-.sidebar text {
-  font-family: 'calibri';
-  font-size: 14px;
-  font-weight: bold;
-  text-anchor: start;
-  fill: black;
-}
-
 .bottom {
   margin-top: 0px;
   flex-direction: column;
