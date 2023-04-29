@@ -7,11 +7,21 @@
     <link rel="stylesheet" href="./src/style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
+    <script src= "https://d3js.org/d3-scale-chromatic.v1.min.js"></script> 
+
   </head>
 
   <body>
-    <div class="main-container">
-      <h1>Reported Crimes in Chicago</h1>
+    <div class="container">
+      <h2>What is the most dangerous city in Chicago?</h1>
+            <div id="chicagoMap"></div>
+            <div class="slidecontainer">
+              <input type="range" min="2015" max="2021" value="6" class="slider" id="yearSlider" oninput="rangeValue.innerText = this.value">
+              <p id="rangeValue">2015</p>
+            </div>
+      </div>
+    <div> 
+
     </div>
     
     <div class="container-fluid main-container">  

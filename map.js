@@ -1,6 +1,7 @@
-var width = 670;
-var height = 780;
+var width = 1024; //80% de 1280
+var height = 550; //50% de 720
 
+//Projection centered in chicago
 var projection = d3.geoMercator()
   .center([-87.6298, 41.8781])
   .scale(40000)
@@ -8,108 +9,128 @@ var projection = d3.geoMercator()
 
 var path = d3.geoPath().projection(projection);
 
-var svg = d3.select(".container-fluid").append("svg")
-  .attr('class', 'map')
+var colorScale = d3.scaleQuantize()
+  .domain([1, 9000])
+  .range(d3.schemeReds[9]);
+
+var SVG = d3.select("#chicagoMap")
+  .append("svg")
   .attr("width", width)
   .attr("height", height);
 
-var crimeData;
-// create a tooltip
-var tooltip = d3.select(".tooltip");
+var beginYear = 2015;
 
-// create a color scale
-var colorScale = d3.scaleQuantize().domain([1, 3000]).range(d3.schemeReds[9]);
+d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcrimesinchicago/main/crimes.geojson")
+.then(data => {
+  //Fit projection
+  projection.fitSize([width/2, height], data);
+  const dataMap = data.features;
 
-d3.json("https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&format=GeoJSON").then(function(data) {
-  projection.fitSize([width,height],data); // fit the projection to the data
+  //Add legend scale
+  var legenda = SVG.append("g")
+    .attr('class', 'caption')
+    .attr("width", 30)
+    .attr("height", height/2)
+    .attr("transform", `translate(70,260)`);
 
-  // Group crimes by community area and count the number of crimes per area
-  d3.csv("https://data.cityofchicago.org/api/views/xguy-4ndq/rows.csv?accessType=DOWNLOAD").then(function(crimes) {
-    crimes.forEach(function(d) {
-      const coords = projection([+d.Longitude, +d.Latitude]);
-      d.x = coords[0];
-      d.y = coords[1];
-    });
-      
-    crimeData = d3.rollup(crimes, v => v.length, d => d["Community Area"]);
-
-    // Join the crime data with the GeoJSON data
-    data.features.forEach(function(d) {
-      var area = d.properties.area_num_1;
-      if (crimeData.has(area)) {
-        d.properties.numCrimes = crimeData.get(area);
-      } else {
-        d.properties.numCrimes = 0;
-      }
-    });    
-    console.log(data);
-
-    // Color the map according to the number of crimes per area and add a tooltip
-    svg.selectAll("path")
-      .data(data.features)
-      .enter()
-      .append("path")
-      .attr("d", path)
-      .style("fill", function(d) {
-        var numCrimes = d.properties.numCrimes;
-        return colorScale(numCrimes);
-      })
-      .style("stroke", "white")
-      .on("mouseover", function(data) { 
-        d3.select(this).style("stroke", "black").attr("stroke-width", 2);
-          tooltip.transition()
-            .duration(200)
-            .style("opacity", .9);
-          tooltip.html("Number of crimes: ")// + data.properties.numCrimes)
-            .style("visibility", "visible")
-            .style("left", (d3.mouse(this) + 10) + "px")
-            .style("top", (d3.mouse(this) - 28) + "px");
-      })
-      .on("mouseout", function() {
-        d3.select(this).style("stroke", "white");
-        tooltip.transition()
-          .duration(500)
-          .style("opacity", 0);
-      });
-  });
-});
-
-// Create a sidebar
-var sidebar = d3.select(".container-fluid").append("svg")
-  .attr('class', 'sidebar')
-  .attr("width", 1040-width)
-  .attr("height", height);
-
-// Add a legend
-legenda = sidebar.append("g")
-  .attr("class", "legend")
-  .attr("transform", "translate(30,20)");
-
-legenda.selectAll("rect")
+  legenda.selectAll("rect")
   .data(colorScale.range().map(function(d) {
     d = colorScale.invertExtent(d);
-    if (d[0] == null) d[0] = colorScale.domain()[0];
-    if (d[1] == null) d[1] = colorScale.domain()[1];
     return d;
   }))
-  .enter().append("rect")
-  .attr("height", 8)
-  .attr("x", function(d, i) { return 25 * i; })
-  .attr("width", 25)
-  .attr("fill", function(d) { return colorScale(d[0]); });
+  .enter()
+    .append("rect")
+      .attr("height", 25)
+      .attr("y", function(d, i) { return 25 * i; })
+      .attr("width", 10)
+      .attr("fill", function(d) { return colorScale(d[0]); });
 
-legenda.append("text")
-  .attr("class", "caption")
-  .attr("x", 1)
-  .attr("y", -6)
-  .text("Number of crimes");
+  legenda.append("text")
+    .attr("class", "caption")
+    .attr("x", 45)
+    .attr("y", 265)
+    .text("Number of crimes");
 
-legenda.call(d3.axisBottom()
-  .scale(d3.scaleLinear()
-    .domain(d3.extent(colorScale.domain()))
-    .rangeRound([0, 25 * 9]))
-  .tickSize(13)
-  .tickFormat(function(x, i) { return i ? x : x; })
-  .tickValues([0, 1000, 2000, 3000]))
-  .select(".domain")
-    .remove();
+  // tick numbers on legend in same style as text on legend
+  legenda.call(d3.axisLeft()
+    .scale(d3.scaleLinear()
+      .domain(d3.extent(colorScale.domain()))
+      .rangeRound([0, 25 * 9]))
+    .tickSize(13)
+    .tickFormat(function(x, i) { return i ? x : x; })
+    .tickValues([0, 1500, 3000, 4500, 6000, 7500, 9000]))
+    .select(".domain")
+      .remove(); 
+     
+  //Plot map
+  map = SVG.selectAll("path")
+    .data((dataMap).filter(d=>d.properties["Year"]===beginYear))
+    .join(
+      function(enter) {
+        return enter
+          .append("path")
+          .attr("d", path)
+          .attr("fill", d => {
+            var numCrimes = d.properties["Number of Crimes"];
+            return colorScale(numCrimes);})  
+          .attr("stroke", "grey")
+      },
+    )
+
+  //Add a tooltip
+  map.append("title")
+  .text(d => `${d.properties['Community Name']}: ${d.properties['Number of Crimes']} crimes.`);     
+
+  map
+  .on("mouseover", function (d) {
+    d3.select(this)
+      .style("stroke", "red")
+      .attr("stroke-width", 2)
+      .attr("paint-order", "markers");
+  })
+  .on("mouseout", function (d) {
+    d3.select(this).style("stroke", null).attr("stroke-width", 1);
+  })
+
+});    
+
+//Listener to update graph
+const slider = document.getElementById("yearSlider");
+slider.addEventListener("input", function() {
+  updateMap(parseInt(slider.value));
+});
+
+function updateMap(year) {
+  d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcrimesinchicago/main/crimes.geojson")
+    .then(data => {
+    const dataMap = data.features;
+    console.log(dataMap);
+    console.log(year);
+    map = SVG.selectAll("path")
+      .data((dataMap).filter(d=>d.properties["Year"]===year))
+      .enter()
+        .append("path")
+        .attr("d", path)
+        //Acho que o "fill" daqui está errado, está pegando o primeiro valor inves da soma deles EU ACHO
+        .attr("fill", d => {
+          var numCrimes = d.properties["Number of Crimes"];
+          console.log(numCrimes);
+          return colorScale(numCrimes);})
+        .attr("stroke", "grey") 
+            
+
+  map.append("title")
+  .text(d => `${d.properties['Community Name']}: ${d.properties['Number of Crimes']} crimes.`);   
+   
+  map
+  .on("mouseover", function (d) {
+    d3.select(this)
+      .style("stroke", "red")
+      .attr("stroke-width", 2)
+      .attr("paint-order", "markers");
+  })
+  .on("mouseout", function (d) {
+    d3.select(this).style("stroke", "grey").attr("stroke-width", 1);
+    }) 
+  })
+}
