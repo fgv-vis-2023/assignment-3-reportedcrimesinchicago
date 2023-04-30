@@ -15,7 +15,14 @@ var colorScale = d3.scaleQuantize()
 
 var SVG = d3.select("#chicagoMap")
   .append("svg")
-  .attr("width", width)
+  .attr("class", "map")
+  .attr("width", 600)
+  .attr("height", height);
+
+var sidebar = d3.select("#chicagoMap")
+  .append("svg")
+  .attr("class", "sidebar")
+  .attr("width", 400)
   .attr("height", height);
 
 var beginYear = 2015;
@@ -134,3 +141,5 @@ function updateMap(year) {
     }) 
   })
 }
+
+// WordCloud
