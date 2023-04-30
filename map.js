@@ -25,7 +25,7 @@ var sidebar = d3.select("#chicagoMap")
   .attr("width", 400)
   .attr("height", height);
 
-var beginYear = 2015;
+var beginYear = 2014;
 
 d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcrimesinchicago/main/crimes.geojson")
 .then(data => {
@@ -111,23 +111,33 @@ function updateMap(year) {
   d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcrimesinchicago/main/crimes.geojson")
     .then(data => {
     const dataMap = data.features;
-    console.log(dataMap);
-    console.log(year);
+    beginYear = year;
     map = SVG.selectAll("path")
       .data((dataMap).filter(d=>d.properties["Year"]===year))
-      .enter()
-        .append("path")
+
+    map.join(
+      enter => enter.append("path")
         .attr("d", path)
-        //Acho que o "fill" daqui está errado, está pegando o primeiro valor inves da soma deles EU ACHO
         .attr("fill", d => {
           var numCrimes = d.properties["Number of Crimes"];
-          console.log(numCrimes);
-          return colorScale(numCrimes);})
-        .attr("stroke", "grey") 
-            
-
-  map.append("title")
-  .text(d => `${d.properties['Community Name']}: ${d.properties['Number of Crimes']} crimes.`);   
+          return colorScale(numCrimes);
+        })
+        .attr("stroke", "grey")
+        .append("title")
+        .text(d => {
+          const community = d.properties['Community Name'];
+          const numCrimes = dataMap.find(d => d.properties['Community Name'] === community && d.properties['Year'] === selectedYear).properties['Number of Crimes'];
+          return `${community}: ${numCrimes} crimes.`;
+        }),  
+      update => update
+        .attr("fill", d => {
+          var numCrimes = d.properties["Number of Crimes"];
+          return colorScale(numCrimes);
+        })
+        .select("title")
+        .text(d => `${d.properties['Community Name']}: ${d.properties['Number of Crimes']} crimes.`),
+      exit => exit.remove()
+    );
    
   map
   .on("mouseover", function (d) {
