@@ -53,6 +53,7 @@ svg {
 
 #slidercontainer {
   align-items: center;
+  vertical-align: middle;
 }
 
 #yearSlider {
@@ -62,6 +63,12 @@ svg {
 #rangeValue {
   display: inline-block;
   margin-left: 5px;
+}
+
+#playButton {
+  margin-right: 5px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .chicagoMap {

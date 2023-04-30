@@ -5,26 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reported Crimes in Chicago</title>
     <link rel="stylesheet" href="./src/style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> 
   </head>
-  <body>
-    <h1> What is the most dangerous area in Chicago City? </h1>
-    <div id="observablehq-chart-ee27b76a"></div>
-    <div id="observablehq-css_style-72064495"></div>
-    
-<p>Embeded from: <a href="https://observablehq.com/d/9ab57553af103566@456">Reported Crimes in Chicago in Observable</a></p>
-<h4>Data Sources:</h4>
-<p><a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">Crime Data</a> and
-<a href="https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6">Neighborhood boundaries shapefile</a> from Chicago Data Portal</p>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
-<script type="module">
-import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-import define from "https://api.observablehq.com/d/9ab57553af103566@456.js?v=3";
-new Runtime().module(define, name => {
-  if (name === "chart") return new Inspector(document.querySelector("#observablehq-chart-ee27b76a"));
-  //if (name === "css_style") return new Inspector(document.querySelector("#observablehq-css_style-72064495"));
-});
-</script>
+  <body>
+    <div class="main-container">
+      <h1>What is the most dangerous city in Chicago?</h1>
+      <p>Using data taken directly from the Chicago Police Department, we computed crimes by Community Area in order to 
+        get a sense of the distribution of crimes across the city.</p>
+      <p>In addition to a breakdown by year, from 2014 to 2022, we used a Wordcloud to describe the crimes, trying to 
+        understand which words were most common in the police explanation of the crimes that occurred in Chicago.</p> 
+    </div>
+    
+    <div class="container-fluid main-container">  
+      <div id="slidecontainer">
+        <button id="playButton">Play</button>
+        <input type="range" min="2014" max="2022" value="6" class="slider" id="yearSlider" oninput="rangeValue.innerText = this.value">
+        <p id="rangeValue">2014</p>
+      </div>
+
+      <div id="chicagoMap"></div>
+      
+      <script src="map.js"></script>
+    </div>
+
+    <div class="main-container bottom">
+      <h4>Data Sources:</h4>
+      <p><a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">Crime Data</a> and
+      <a href="https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6">Neighborhood boundaries shapefile</a> from Chicago Data Portal</p>
+    </div>
   </body>
-  
 </html>
