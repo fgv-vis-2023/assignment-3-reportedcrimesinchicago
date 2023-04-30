@@ -15,7 +15,11 @@ Altough we do not live in the United States and don´t have a deep knowledge abo
 
 That question could be responded with a multiple number of visualizations, but to make it more complex and personal, we decided to use the D3 library to build a Choropleth Map, dividing the city in the Community Areas stablished in the dataset of choice. With that, we could show the distribution of crime in the city and people could easily identify areas of their interest (either to live, visit or stay for a while) and see the histotical data of crime in that area, with stronger shades of red indicating areas with more crimes and progressively lightning the color in areas with less crimes.
 
-The map visualization is interest by itself, we decided to challenge ourselves to make it more informative and with a higher degree of dificulty, utilizing a wordcloud with the "Description" column of the dataset. With that, we intend to show what appears most in the police description of the crimes in th region of choice from the user, utilizing his mouse to select the Community Area of interest.
+The map visualization is interest by itself, but we decided to challenge ourselves to make it more informative and with a higher degree of dificulty, utilizing a wordcount with the "Description" column of the dataset. With that, we intend to show what appears most in the police description of the crimes in th region of choice from the user, utilizing his mouse to select the Community Area of interest.
+
+In the terms of distribution of work, we habdled it by deciding what were the next steps that we needed to take and then deciding within the group which member would do each part. Although we didn't decide in the beginning of the assingment exactly what everyone would do, we did manage to organize ourselves in a way to deliver what our visualization intended in the first place. It is hard to tell exactly how much time we spent developing out visualization, but getting the tooltip to work and to update to each year and each community area where definetly the part that took most of our time in the process of getting our visualization ready.
+
+In the end, we think we reached our goal with our visualization, delivering the informations we wanted in a clear, interative and informative way.
 
 ## Sources and References
 - [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2)
