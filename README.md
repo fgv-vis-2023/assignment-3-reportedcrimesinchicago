@@ -19,6 +19,10 @@ The map visualization is interest by itself, but we decided to challenge ourselv
 
 In the terms of distribution of work, we habdled it by deciding what were the next steps that we needed to take and then deciding within the group which member would do each part. Although we didn't decide in the beginning of the assingment exactly what everyone would do, we did manage to organize ourselves in a way to deliver what our visualization intended in the first place. It is hard to tell exactly how much time we spent developing out visualization, but getting the tooltip to work and to update to each year and each community area where definetly the part that took most of our time in the process of getting our visualization ready (around 4 days to understand the d3 joins concepts and implementing in our visualization).
 
+The map visualization is interest by itself, but we decided to challenge ourselves to make it more informative and with a higher degree of dificulty, utilizing a wordcount with the "Description" column of the dataset. With that, we intend to show what appears most in the police description of the crimes in th region of choice from the user, utilizing his mouse to select the Community Area of interest.
+
+In the terms of distribution of work, we habdled it by deciding what were the next steps that we needed to take and then deciding within the group which member would do each part. Although we didn't decide in the beginning of the assingment exactly what everyone would do, we did manage to organize ourselves in a way to deliver what our visualization intended in the first place. It is hard to tell exactly how much time we spent developing out visualization, but getting the tooltip to work and to update to each year and each community area where definetly the part that took most of our time in the process of getting our visualization ready.
+
 In the end, we think we reached our goal with our visualization, delivering the informations we wanted in a clear, interative and informative way.
 
 ## Sources and References
