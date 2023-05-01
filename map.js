@@ -1,4 +1,4 @@
-var width = 1024; //80% de 1280
+var width = 1100; //80% de 1280
 var height = 550; //50% de 720
 
 //Projection centered in chicago
@@ -16,13 +16,13 @@ var colorScale = d3.scaleQuantize()
 var SVG = d3.select("#chicagoMap")
   .append("svg")
   .attr("class", "map")
-  .attr("width", 500)
+  .attr("width", 520)
   .attr("height", height);
 
 var sidebar = d3.select("#chicagoMap")
   .append("svg")
   .attr("class", "sidebar")
-  .attr("width", width-500)
+  .attr("width", width-520)
   .attr("height", height);
 
 var beginYear = 2014;
@@ -82,7 +82,7 @@ d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcri
           .attr("fill", d => {
             var numCrimes = d.properties["Number of Crimes"];
             return colorScale(numCrimes);})  
-          .attr("stroke", "grey")
+          .attr("stroke", "black")
       },
     )
 
@@ -115,7 +115,7 @@ d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcri
       {acc[curr] = (acc[curr] || 0) + 1; 
         return acc;
       }, {})).sort((a,b) => b[1]-a[1]);
-      var data = descriptionCount.slice(0,5);
+      var data = descriptionCount.slice(0,10);
     
       var values = []
       data.forEach(entry => {
@@ -123,9 +123,9 @@ d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcri
       })
       size = d3.scaleLinear()
         .domain(d3.extent(values))
-        .range([10, 40]);
+        .range([14, 50]);
       y = d3.scaleLinear()
-        .domain([0, 35*5])  
+        .domain([0, 35*10])  
         .range([70, height]);
       var i = 0;
       data.forEach(entry => {
@@ -137,7 +137,7 @@ d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcri
           .attr("x", 0)
           .attr("y", y(i))
           .attr("font-size", `${size(value)/20}em`);
-          i+=25;
+          i+=32;
       })
     })  
 
@@ -153,14 +153,14 @@ slider.addEventListener("input", function() {
 playButton.addEventListener("click", () => {
   const playFunction = () => {
     beginYear++; 
-    if (beginYear > 2022) { 
+    if (beginYear >= 2022) { 
       clearInterval(intervalId);
     }
     document.getElementById("yearSlider").value = beginYear; 
     updateMap(beginYear); 
   };
 
-  intervalId = setInterval(playFunction, 2000); // Executa a função a cada 1 segundo
+  intervalId = setInterval(playFunction, 2000);
 });
 
 playButton.addEventListener("click", function() {
@@ -191,7 +191,7 @@ function updateMap(year) {
           var numCrimes = d.properties["Number of Crimes"];
           return colorScale(numCrimes);
         })
-        .attr("stroke", "grey")
+        .attr("stroke", "black")
         .append("title")
         .text(d => {
           const community = d.properties['Community Name'];
@@ -214,8 +214,8 @@ function updateMap(year) {
       descriptionCount =  Object.entries(arr.reduce((acc, curr) => 
       {acc[curr] = (acc[curr] || 0) + 1; 
         return acc;
-      }, {})).sort((a,b) => b[1]-a[1]);
-      var data = descriptionCount.slice(0,5);
+      }, {})).sort((a,b) => b[1]-a[1]); 
+      var data = descriptionCount.slice(0,10); 
     
       var values = []
       data.forEach(entry => {
@@ -223,21 +223,21 @@ function updateMap(year) {
       })
       size = d3.scaleLinear()
         .domain(d3.extent(values))
-        .range([10, 40]);
+        .range([14, 50]); 
       y = d3.scaleLinear()
-        .domain([0, 35*5])  
-        .range([70, height]);
-      var i = 0;
+        .domain([0, 35*10])  
+        .range([70, height]); 
+      var i = 0; +
       data.forEach(entry => {
-        var key = entry.at(0);
-        var value = entry.at(1);
+        var key = entry.at(0); 
+        var value = entry.at(1); 
         sidebar.select(".regionInfo")
         .append("text")
         .text(key)
-          .attr("x", 0)
-          .attr("y", y(i))
+          .attr("x", 0) 
+          .attr("y", y(i)) 
           .attr("font-size", `${size(value)/20}em`);
-          i+=25;
+          i+=32;
       })
     })  
    
@@ -254,7 +254,7 @@ function updateMap(year) {
       .attr("fill", "black");
   })
   .on("mouseout", function (d) {
-    d3.select(this).style("stroke", "grey").attr("stroke-width", 1);
+    d3.select(this).style("stroke", "black").attr("stroke-width", 1);
     // clear sidebar
     sidebar.select(".regionInfo").selectAll("*").remove();
     });
@@ -262,19 +262,14 @@ function updateMap(year) {
 }
 
 // sidebar
-sidebar.append("rect")
-  .attr("width", 400)
-  .attr("height", 60)
-  .attr("fill", "white");
-
 sidebar.append("text")
   .text("Hover over a region to see more information about it.")
   .attr("transform", `translate(10, 20)`);
 
 sidebar.append("text")
-  .text("Then, click on the region to see the most 5 popular crimes descriptions.")
+  .text("Then, click on the region to see the 10 most popular crimes descriptions.")
   .attr("transform", `translate(10, 40)`);
 
 sidebar.append("g")
   .attr("class", "regionInfo")
-  .attr("transform", `translate(10, 60)`);
+  .attr("transform", `translate(12, 80)`);
