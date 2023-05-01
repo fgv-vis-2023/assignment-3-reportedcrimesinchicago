@@ -22,7 +22,7 @@ var SVG = d3.select("#chicagoMap")
 var sidebar = d3.select("#chicagoMap")
   .append("svg")
   .attr("class", "sidebar")
-  .attr("width", 400)
+  .attr("width", width-500)
   .attr("height", height);
 
 var beginYear = 2014;
@@ -108,6 +108,39 @@ d3.json("https://raw.githubusercontent.com/fgv-vis-2023/assignment-3-reportedcri
     sidebar.select(".regionInfo").selectAll("*").remove();
   })
 
+  map
+    .on("click", function (d) {
+      arr = d.target.__data__.properties["Description"].split(',');
+      descriptionCount =  Object.entries(arr.reduce((acc, curr) => 
+      {acc[curr] = (acc[curr] || 0) + 1; 
+        return acc;
+      }, {})).sort((a,b) => b[1]-a[1]);
+      var data = descriptionCount.slice(0,5);
+    
+      var values = []
+      data.forEach(entry => {
+        values.push(entry.at(1))
+      })
+      size = d3.scaleLinear()
+        .domain(d3.extent(values))
+        .range([10, 40]);
+      y = d3.scaleLinear()
+        .domain([0, 35*5])  
+        .range([70, height]);
+      var i = 0;
+      data.forEach(entry => {
+        var key = entry.at(0);
+        var value = entry.at(1);
+        sidebar.select(".regionInfo")
+        .append("text")
+        .text(key)
+          .attr("x", 0)
+          .attr("y", y(i))
+          .attr("font-size", `${size(value)/20}em`);
+          i+=25;
+      })
+    })  
+
 });    
 
 //Listener to update graph
@@ -174,6 +207,39 @@ function updateMap(year) {
         .text(d => `${d.properties['Community Name']}: ${d.properties['Number of Crimes']} crimes.`),
       exit => exit.remove()
     );
+
+    map
+    .on("click", function (d) {
+      arr = d.target.__data__.properties["Description"].split(',');
+      descriptionCount =  Object.entries(arr.reduce((acc, curr) => 
+      {acc[curr] = (acc[curr] || 0) + 1; 
+        return acc;
+      }, {})).sort((a,b) => b[1]-a[1]);
+      var data = descriptionCount.slice(0,5);
+    
+      var values = []
+      data.forEach(entry => {
+        values.push(entry.at(1))
+      })
+      size = d3.scaleLinear()
+        .domain(d3.extent(values))
+        .range([10, 40]);
+      y = d3.scaleLinear()
+        .domain([0, 35*5])  
+        .range([70, height]);
+      var i = 0;
+      data.forEach(entry => {
+        var key = entry.at(0);
+        var value = entry.at(1);
+        sidebar.select(".regionInfo")
+        .append("text")
+        .text(key)
+          .attr("x", 0)
+          .attr("y", y(i))
+          .attr("font-size", `${size(value)/20}em`);
+          i+=25;
+      })
+    })  
    
   map
   .on("mouseover", function (d) {
@@ -191,7 +257,7 @@ function updateMap(year) {
     d3.select(this).style("stroke", "grey").attr("stroke-width", 1);
     // clear sidebar
     sidebar.select(".regionInfo").selectAll("*").remove();
-    }) 
+    });
   })
 }
 
@@ -205,90 +271,10 @@ sidebar.append("text")
   .text("Hover over a region to see more information about it.")
   .attr("transform", `translate(10, 20)`);
 
+sidebar.append("text")
+  .text("Then, click on the region to see the most 5 popular crimes descriptions.")
+  .attr("transform", `translate(10, 40)`);
+
 sidebar.append("g")
   .attr("class", "regionInfo")
-  .attr("transform", `translate(10, 50)`);
-
-// wordcloud
-var stopwords = new Set(["10,18,30,300,-,/,$,p,o,i,me,my,myself,we,us,our,ours,ourselves,you,your,yours,yourself,yourselves,he,him,his,himself,she,her,hers,herself,it,its,itself,they,them,their,theirs,themselves,what,which,who,whom,whose,this,that,these,those,am,is,are,was,were,be,been,being,have,has,had,having,do,does,did,doing,will,would,should,can,could,ought,i'm,you're,he's,she's,it's,we're,they're,i've,you've,we've,they've,i'd,you'd,he'd,she'd,we'd,they'd,i'll,you'll,he'll,she'll,we'll,they'll,isn't,aren't,wasn't,weren't,hasn't,haven't,hadn't,doesn't,don't,didn't,won't,wouldn't,shan't,shouldn't,can't,cannot,couldn't,mustn't,let's,that's,who's,what's,here's,there's,when's,where's,why's,how's,a,an,the,and,but,if,or,because,as,until,while,of,at,by,for,with,about,against,between,into,through,during,before,after,above,below,to,from,up,upon,down,in,out,on,off,over,under,again,further,then,once,here,there,when,where,why,how,all,any,both,each,few,more,most,other,some,such,no,nor,not,only,own,same,so,than,too,very,say,says,said,shall"
-.split(",")]);
-
-var descriptions = ["ARMED - OTHER DANGEROUS WEAPON", "TO VEHICLE", "TELEPHONE THREAT", "TO VEHICLE", "ARMED - HANDGUN", "TO PROPERTY"];
-
-var words = String(descriptions)
-  .split(/[\s.,]+/g)
-  .map((w) => w.replace(/^[“‘"\-—()\[\]{}]+/g, ""))
-  .map((w) => w.replace(/[;:.!?()\[\]{},"'’”\-—]+$/g, ""))
-  .map((w) => w.replace(/['’]s$/g, ""))
-  .map((w) => w.toLowerCase())
-  .filter((w) => w && !stopwords.has(w));
-
-var wordCloud = sidebar
-    .append("g")
-    .attr("class", "wordcloud")
-    .attr("transform", `translate(10, 100)`);
-
-const cloud = WordCloud(descriptions, {
-  width: 350,
-  height: 300});
-  
-wordCloud.node().appendChild(cloud);
-
-function WordCloud(
-  text,
-  {
-    size = (group) => group.length, // Given a grouping of words, returns the size factor for that word
-    word = (d) => d, // Given an item of the data array, returns the word
-    marginTop = 0, // top margin, in pixels
-    marginRight = 0, // right margin, in pixels
-    marginBottom = 0, // bottom margin, in pixels
-    marginLeft = 0, // left margin, in pixels
-    width = 550, // outer width, in pixels
-    height = 380, // outer height, in pixels
-    maxWords = 200, // maximum number of words to extract from the text
-    fontFamily = "sans-serif", // font family
-    fontScale = 3, // base font size
-    padding = 0, // amount of padding between the words (in pixels)
-    rotate = 0, // a constant or function to rotate the words
-    invalidation // when this promise resolves, stop the simulation
-  } = {}
-) {
-  const words =
-    typeof text === "string" ? text.split(/\W+/g) : Array.from(text);
-
-  const data = d3
-    .rollups(words, size, (w) => w)
-    .sort(([, a], [, b]) => d3.descending(a, b))
-    .slice(0, maxWords)
-    .map(([key, size]) => ({ text: word(key), size }));
-
-  const svg = d3
-    .create("svg")
-    .attr("viewBox", [0, 0, width, height])
-    .attr("width", width)
-    .attr("font-family", fontFamily)
-    .attr("text-anchor", "middle")
-    .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
-
-  const g = svg
-    .append("g")
-    .attr("transform", `translate(${marginLeft},${marginTop})`);
-
-  const cloud = d3Cloud()
-    .size([width - marginLeft - marginRight, height - marginTop - marginBottom])
-    .words(data)
-    .padding(padding)
-    .rotate(rotate)
-    .font(fontFamily)
-    .fontSize((d) => Math.sqrt(d.size) * fontScale)
-    .on("word", ({ size, x, y, rotate, text }) => {
-      g.append("text")
-        .attr("font-size", size)
-        .attr("transform", `translate(${x},${y}) rotate(${rotate})`)
-        .text(text);
-    });
-
-  cloud.start();
-  invalidation && invalidation.then(() => cloud.stop());
-  return svg.node();
-};
+  .attr("transform", `translate(10, 60)`);
