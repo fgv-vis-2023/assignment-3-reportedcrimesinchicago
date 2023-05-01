@@ -1,9 +1,10 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/CxFZefIP)
 # Data Visualization: Assignment 3 - Interactive Design
 
 This is a project developed for the Data Visualization course, taught by professor Jorge Poco, by the students [Bernardo Vargas](https://github.com/bernardvma), [Cristiano Lárrea](https://github.com/cristianolarrea) and [Paloma Borges](https://github.com/palomavb), from the Data Science and Artificial Intelligence course at FGV.
 
 We used the data from the [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2), which reports incidents of crime in Chicago extracted from the Chicago PD, and the D3 library to build a visualization that shows the distribution of crime across Chicago.
+
+[https://fgv-vis-2023.github.io/assignment-3-reportedcrimesinchicago/](https://fgv-vis-2023.github.io/assignment-3-reportedcrimesinchicago/)
 
 ## Design Decisions and Development Process
 
